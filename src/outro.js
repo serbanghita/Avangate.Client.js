@@ -1,0 +1,3 @@
+return ShoppingCart;
+
+})(window, document);

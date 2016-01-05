@@ -1,0 +1,1 @@
+var ShoppingCart = (function(window, document, undefined) {
