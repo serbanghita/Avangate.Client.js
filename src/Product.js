@@ -1,26 +1,36 @@
-var Product = function Product(productData) {
-  function getCode() {
-    return productData.ProductCode;
-  }
+// @see tests/mock/product.json
+var Product = {
+  
+  init: function(modelData) {
+    this.model = modelData;
+  },
 
-  function getName() {
-    return productData.ProductName;
-  }
+  asJSON: function() {
+    return this.model;
+  },
 
-  function getShortDescription() {
-    return productData.ShortDescription;
-  }
+  getCode: function() {
+    return this.model.ProductCode;
+  },
 
-  function getDefaultImageURL() {
-    for (var i in productData.ProductImages) {
-      if (productData.ProductImages[i].Default) {
-        return productData.ProductImages[i].URL;
+  getName: function() {
+    return this.model.ProductName;
+  },
+
+  getShortDescription: function() {
+    return this.model.ShortDescription;
+  },
+
+  getDefaultImageURL: function() {
+    for (var i in this.model.ProductImages) {
+      if (this.model.ProductImages[i].Default) {
+        return this.model.ProductImages[i].URL;
       }
     }
     return null;
-  }
+  },
   
-  function render() {
+  render: function() {
     var $product = document.createElement('div');
     
     var $productCode = document.createElement('div');
@@ -42,12 +52,4 @@ var Product = function Product(productData) {
 
     document.body.appendChild($product);
   }
-
-  return {
-    getCode: getCode,
-    getName: getName,
-    getShortDescription: getShortDescription,
-    getDefaultImageURL: getDefaultImageURL,
-    render: render
-  };
 };

@@ -2,8 +2,8 @@ var Config = function Config(options) {
   this.settings = {
     vendorCode: null,
     vendorSecret: null,
-    orderUri: 'https://api.avangate.com/rest/3.0',
-    productUri: 'https://api.avangate.com/rest/3.0'
+    orderUri: getCurrentUrl(),
+    productUri: getCurrentUrl()
   };
   
   extend(this.settings, options);

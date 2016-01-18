@@ -1,0 +1,103 @@
+{
+  "AvangateId": "4594167",
+  "ProductCode": "TS_Album_2013",
+  "ProductType": "REGULAR",
+  "ProductName": "Traveling Songs - The Album",
+  "ProductVersion": "",
+  "GroupName": "General",
+  "ShippingClass": null,
+  "GiftOption": false,
+  "ShortDescription": "<p>\r\n\t&quot;Traveling Songs&quot; Album</p>",
+  "LongDescription": "<p>\r\n\t&quot;Traveling Songs&quot; Album</p>",
+  "SystemRequirements": "",
+  "ProductCategory": false,
+  "Platforms": [],
+  "ProductImages": [
+    {
+      "Default": true,
+      "URL": "https://secure.avangate.com/images/merchant/cb953f6ca5923f7517125db46ed1293d/products/relaxing_on_rooftop_by_raphael_lacoste-d5kz0vz.jpg"
+    }
+  ],
+  "TrialUrl": "",
+  "TrialDescription": "",
+  "Enabled": true,
+  "AdditionalFields": [],
+  "Translations": [],
+  "PricingConfigurations": [
+    {
+      "Name": "Traveling Songs - The Album's Price Configuration",
+      "Code": "54BCE3977A",
+      "Default": true,
+      "BillingCountries": [],
+      "PricingSchema": "DYNAMIC",
+      "PriceType": "NET",
+      "DefaultCurrency": "USD",
+      "Prices": {
+        "Regular": [
+          {
+            "Amount": 12,
+            "Currency": "USD",
+            "MinQuantity": "1",
+            "MaxQuantity": "99999",
+            "OptionCodes": []
+          }
+        ],
+        "Renewal": []
+      },
+      "PriceOptions": []
+    }
+  ],
+  "Prices": [],
+  "BundleProducts": [],
+  "Fulfillment": "NO_DELIVERY",
+  "GeneratesSubscription": true,
+  "SubscriptionInformation": {
+    "DeprecatedProducts": [],
+    "BundleRenewalManagement": "GLOBAL",
+    "BillingCycle": "-1",
+    "BillingCycleUnits": "M",
+    "IsOneTimeFee": true,
+    "ContractPeriod": null,
+    "UsageBilling": 0,
+    "GracePeriod": null,
+    "RenewalEmails": {
+      "Type": "GLOBAL",
+      "Settings": {
+        "ManualRenewal": {
+          "Before30Days": false,
+          "Before15Days": false,
+          "Before7Days": true,
+          "Before1Day": false,
+          "OnExpirationDate": false,
+          "After5Days": false,
+          "After15Days": false
+        },
+        "AutomaticRenewal": {
+          "Before30Days": false,
+          "Before15Days": false,
+          "Before7Days": true,
+          "Before1Day": false,
+          "OnExpirationDate": false,
+          "After5Days": false,
+          "After15Days": false
+        }
+      }
+    }
+  },
+  "FulfillmentInformation": {
+    "IsStartAfterFulfillment": false,
+    "IsElectronicCode": false,
+    "IsDownloadLink": false,
+    "IsBackupMedia": false,
+    "IsDownloadInsuranceService": false,
+    "IsInstantDeliveryThankYouPage": false,
+    "IsDisplayInPartnersCPanel": false,
+    "CodeList": null,
+    "BackupMedia": null,
+    "ProductFile": null,
+    "AdditionalInformationByEmail": null,
+    "AdditionalInformationEmailTranslations": [],
+    "AdditionalThankYouPage": null,
+    "AdditionalThankYouPageTranslations": []
+  }
+}

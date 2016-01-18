@@ -1,0 +1,17 @@
+{
+  "Currency": "usd",
+  "UnitNetPrice": 99.99,
+  "UnitGrossPrice": 99.99,
+  "UnitVAT": 0,
+  "UnitDiscount": 0,
+  "UnitNetDiscountedPrice": 99.99,
+  "UnitGrossDiscountedPrice": 99.99,
+  "UnitAffiliateCommission": 0,
+  "NetPrice": 99.99,
+  "GrossPrice": 99.99,
+  "NetDiscountedPrice": 99.99,
+  "GrossDiscountedPrice": 99.99,
+  "Discount": 0,
+  "VAT": 0,
+  "AffiliateCommission": 0
+}

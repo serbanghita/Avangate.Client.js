@@ -1,4 +1,12 @@
   // Private stuff.
+  function getCurrentUrl() {
+    var url = window.location.href;
+    if(url.substr(-1) === '/') {
+      return url.substr(0, url.length - 1);
+    }
+    return url;
+  }
+  
   function extend(oldObj, newObj){
     var i;
     for(i in newObj){
@@ -7,6 +15,14 @@
       }
     }
     return oldObj;
+  }
+  
+  function createFromPrototype(proto, initData) {
+    function F() {};
+    F.prototype = proto;
+    var f = new F();
+    f.init(initData);
+    return f;
   }
 
   // Main class.
@@ -29,7 +45,7 @@
     );
     
     if (orderData) {
-      this.order = makeOrder(orderData);
+      this.order = this.makeOrder(orderData);
     }
   };
   
@@ -41,20 +57,28 @@
     return new ApiClient(uri, vendorCode, vendorSecret);
   }
 
-  function makeOrder(orderData) {
-    return new Order(orderData);
-  }
-  
-  function makeProduct(productData) {
-    return new Product(productData);
-  }
+  ShoppingCart.prototype.makeOrder = function(data) {
+    return createFromPrototype(Order, data);
+  };
+
+  ShoppingCart.prototype.makeOrderItem = function(data) {
+    return createFromPrototype(OrderItem, data);
+  };
+
+  ShoppingCart.prototype.makeProduct = function(data) {
+    return createFromPrototype(Product, data);
+  };
+
+  ShoppingCart.prototype.makeProductPrice = function(data) {
+    return createFromPrototype(ProductPrice, data);
+  };
   
   ShoppingCart.prototype.getConfig = function() {
     return this.config;
   };
   
   ShoppingCart.prototype.setOrder = function(orderData) {
-    this.order = makeOrder(orderData);
+    this.order = this.makeOrder(orderData);
   };
   
   ShoppingCart.prototype.getOrder = function() {
@@ -65,6 +89,24 @@
   ShoppingCart.prototype.fetchProduct = function(productCode) {
     return this.orderClient.request('GET', '/products/'+ productCode +'/');
   };
+
+  ShoppingCart.prototype.fetchProductPrice = function(productCode) {
+    var payLoad = {
+      Item: {
+        Code: productCode,
+        Quantity: 1,
+        PriceOptions: []
+      },
+      BillingDetails: {
+        Country: this.getOrder().getBillingCountry(),
+        State: this.getOrder().getBillingState()
+      },
+      Currency: this.getOrder().getCurrency(),
+      CouponCode: null,
+      PayType: null
+    };
+    return this.orderClient.request('PUT', '/orders/0/price/', payLoad);
+  };
   
   ShoppingCart.prototype.updateOrder = function() {
     return this.orderClient.request('PUT', '/orders/0/', this.getOrder().asJSON());
@@ -72,5 +114,10 @@
 
   ShoppingCart.prototype.placeOrder = function() {
     return this.orderClient.request('POST', '/orders/', this.getOrder().asJSON());
+  };
+  
+  // @todo Enhance to return Response().
+  ShoppingCart.prototype.handleError = function(error) {
+    console.log(error);
   };
   

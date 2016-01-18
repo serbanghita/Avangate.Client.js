@@ -25,8 +25,8 @@ var Config = function Config(options) {
   this.settings = {
     vendorCode: null,
     vendorSecret: null,
-    orderUri: 'https://api.avangate.com/rest/3.0',
-    productUri: 'https://api.avangate.com/rest/3.0'
+    orderUri: getCurrentUrl(),
+    productUri: getCurrentUrl()
   };
   
   extend(this.settings, options);
@@ -291,6 +291,14 @@ var Order = function Order(orderData) {
   };
 };
   // Private stuff.
+  function getCurrentUrl() {
+    var url = window.location.href;
+    if(url.substr(-1) === '/') {
+      return url.substr(0, url.length - 1);
+    }
+    return url;
+  }
+  
   function extend(oldObj, newObj){
     var i;
     for(i in newObj){
@@ -356,6 +364,10 @@ var Order = function Order(orderData) {
   // Promises.
   ShoppingCart.prototype.fetchProduct = function(productCode) {
     return this.orderClient.request('GET', '/products/'+ productCode +'/');
+  };
+  
+  ShoppingCart.prototype.fetchProductPrice = function(productCode) {
+    return this.orderClient.request('PUT', '/orders/0/price/', this.getOrder().asJSON());
   };
   
   ShoppingCart.prototype.updateOrder = function() {

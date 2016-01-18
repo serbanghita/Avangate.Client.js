@@ -1,0 +1,21 @@
+{
+  "name": "Avangate.Client.js",
+  "version": "0.0.1",
+  "manifest_version": 2,
+  "description": "Injecting stuff",
+  "background": {
+    "scripts": [
+      "extension/background.js"
+    ],
+    "persistent": true
+  },
+  "browser_action": {
+    "default_title": "Inject!"
+  },
+  "permissions": [
+    "https://*/*",
+    "http://*/*",
+    "tabs"
+  ],
+  "web_accessible_resources": ["build/ordering.client.js", "extension/test.js"]
+}
