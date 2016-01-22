@@ -3,7 +3,7 @@
  * ApiClient
  *
  */
-var ApiClient = function(uri, vendorCode, vendorPassword) {
+var HttpClient = function(uri, vendorCode, vendorPassword) {
     
   // Assign the current form reference.
   if (!uri || !vendorCode || !vendorPassword) {

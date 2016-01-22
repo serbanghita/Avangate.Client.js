@@ -1,4 +1,4 @@
-var sc = new ShoppingCart('SCSERBOE', 'm^+T_4%FExA*p@iuK#[N');
+var sc = new ShoppingCart('SERBANGH', 'W9(a39#d+D3A0+2@6]6]');
 sc.setOrder({
   'Currency': 'USD',
   'Language': 'en',
@@ -40,14 +40,14 @@ sc.setOrder({
   }
 });
 
-sc.fetchProduct('AS_Test').then(makeProduct,
+sc.fetchProduct('AS_Test').then(sc.makeProduct.bind(sc),
     function(error) {
       console.log(error);
     });
 
-sc.fetchProductPrice('AS_Test').then(makeProductPrice,
+sc.fetchProductPrice('AS_Test').then(sc.makeProductPrice.bind(sc),
     function(error) {
-      
+      console.log(error);
     });
 
 /*

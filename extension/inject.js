@@ -1,4 +1,4 @@
-function loadScript(url, w, d, tagName) {
+function loadScript(url, onLoad, w, d, tagName) {
   w = w || window;
   d = d || document;
   tagName = tagName || 'script';
@@ -7,8 +7,10 @@ function loadScript(url, w, d, tagName) {
       $script = d.createElement('script');
   $script.id = 'myScript-' + Math.random();
   $script.src = chrome.extension.getURL(url);
+  $script.onload = onLoad;
   $where.parentNode.insertBefore($script, $where);
 }
 
-loadScript('build/ordering.client.js');
-loadScript('extension/test.js');
+loadScript('build/ordering.client.js', function(){
+  loadScript('extension/test.js');
+});

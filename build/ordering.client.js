@@ -52,7 +52,7 @@ Config.prototype.getProductUri = function() {
  * ApiClient
  *
  */
-var ApiClient = function(uri, vendorCode, vendorPassword) {
+var HttpClient = function(uri, vendorCode, vendorPassword) {
     
   // Assign the current form reference.
   if (!uri || !vendorCode || !vendorPassword) {
@@ -227,29 +227,39 @@ var ApiClient = function(uri, vendorCode, vendorPassword) {
   };
 };
 
-var Product = function Product(productData) {
-  function getCode() {
-    return productData.ProductCode;
-  }
+// @see tests/mock/product.json
+var Product = {
+  
+  init: function(modelData) {
+    this.model = modelData;
+  },
 
-  function getName() {
-    return productData.ProductName;
-  }
+  asJSON: function() {
+    return this.model;
+  },
 
-  function getShortDescription() {
-    return productData.ShortDescription;
-  }
+  getCode: function() {
+    return this.model.ProductCode;
+  },
 
-  function getDefaultImageURL() {
-    for (var i in productData.ProductImages) {
-      if (productData.ProductImages[i].Default) {
-        return productData.ProductImages[i].URL;
+  getName: function() {
+    return this.model.ProductName;
+  },
+
+  getShortDescription: function() {
+    return this.model.ShortDescription;
+  },
+
+  getDefaultImageURL: function() {
+    for (var i in this.model.ProductImages) {
+      if (this.model.ProductImages[i].Default) {
+        return this.model.ProductImages[i].URL;
       }
     }
     return null;
-  }
+  },
   
-  function render() {
+  render: function() {
     var $product = document.createElement('div');
     
     var $productCode = document.createElement('div');
@@ -271,24 +281,112 @@ var Product = function Product(productData) {
 
     document.body.appendChild($product);
   }
-
-  return {
-    getCode: getCode,
-    getName: getName,
-    getShortDescription: getShortDescription,
-    getDefaultImageURL: getDefaultImageURL,
-    render: render
-  };
 };
 
-var Order = function Order(orderData) {
-  function asJSON() {
-    return orderData;
-  }
+// @see tests/mock/productPrice.json
+var ProductPrice = {
   
-  return {
-    asJSON: asJSON
-  };
+  init: function(modelData) {
+    this.model = modelData;
+  },
+
+  getCurrency: function() {
+    return this.model.Currency;
+  },
+
+  getUnitNetPrice: function() {
+    return this.model.UnitNetPrice;
+  },
+
+  getUnitGrossPrice: function() {
+    return this.model.UnitGrossPrice;
+  },
+
+  getUnitVAT: function() {
+    return this.model.UnitVAT;
+  },
+
+  getUnitDiscount: function() {
+    return this.model.UnitDiscount;
+  },
+
+  getUnitNetDiscountedPrice: function() {
+    return this.model.UnitNetDiscountedPrice;
+  },
+
+  getUnitGrossDiscountedPrice: function() {
+    return this.model.UnitGrossDiscountedPrice;
+  },
+
+  getUnitAffiliateCommission: function() {
+    return this.model.UnitAffiliateCommission;
+  },
+
+  getNetPrice: function() {
+    return this.model.UnitAffiliateCommission;
+  },
+
+  getGrossPrice: function() {
+    return this.model.GrossPrice;
+  },
+
+  getNetDiscountedPrice: function() {
+    return this.model.NetDiscountedPrice;
+  },
+
+  getGrossDiscountedPrice: function() {
+    return this.model.GrossDiscountedPrice;
+  },
+
+  getDiscount: function() {
+    return this.model.Discount;
+  },
+
+  getVAT: function() {
+    return this.model.VAT;
+  },
+
+  getAffiliateCommission: function() {
+    return this.model.AffiliateCommission;
+  }
+
+};
+var Order = {
+  init: function(modelData) {
+    this.model = modelData;
+  },
+  
+  asJSON: function() {
+    return this.model;
+  },
+
+  getCurrency: function() {
+    return this.model.Currency;
+  },
+
+  getItems: function() {
+    return this.model.Items;
+  },
+
+  getItemByCode: function(code) {
+    for (var i in this.getItems()) {
+      if (!this.getItems().hasOwnProperty(i)) {
+        continue;
+      }
+      if (this.getItems()[i].Code === code) {
+        return this.getItems()[i];
+      }
+    }
+    return null;
+  },
+
+  getBillingCountry: function() {
+    return this.model.BillingDetails.Country;
+  },
+
+  getBillingState: function() {
+    return this.model.BillingDetails.State;
+  }
 };
   // Private stuff.
   function getCurrentUrl() {
@@ -307,6 +405,14 @@ var Order = function Order(orderData) {
       }
     }
     return oldObj;
+  }
+  
+  function createFromPrototype(proto, initData) {
+    function F() {};
+    F.prototype = proto;
+    var f = new F();
+    f.init(initData);
+    return f;
   }
 
   // Main class.
@@ -329,7 +435,7 @@ var Order = function Order(orderData) {
     );
     
     if (orderData) {
-      this.order = makeOrder(orderData);
+      this.order = this.makeOrder(orderData);
     }
   };
   
@@ -338,23 +444,31 @@ var Order = function Order(orderData) {
   }
   
   function makeHttpClient(uri, vendorCode, vendorSecret) {
-    return new ApiClient(uri, vendorCode, vendorSecret);
+    return new HttpClient(uri, vendorCode, vendorSecret);
   }
 
-  function makeOrder(orderData) {
-    return new Order(orderData);
-  }
-  
-  function makeProduct(productData) {
-    return new Product(productData);
-  }
+  ShoppingCart.prototype.makeOrder = function(data) {
+    return createFromPrototype(Order, data);
+  };
+
+  ShoppingCart.prototype.makeOrderItem = function(data) {
+    return createFromPrototype(OrderItem, data);
+  };
+
+  ShoppingCart.prototype.makeProduct = function(data) {
+    return createFromPrototype(Product, data);
+  };
+
+  ShoppingCart.prototype.makeProductPrice = function(data) {
+    return createFromPrototype(ProductPrice, data);
+  };
   
   ShoppingCart.prototype.getConfig = function() {
     return this.config;
   };
   
   ShoppingCart.prototype.setOrder = function(orderData) {
-    this.order = makeOrder(orderData);
+    this.order = this.makeOrder(orderData);
   };
   
   ShoppingCart.prototype.getOrder = function() {
@@ -365,9 +479,23 @@ var Order = function Order(orderData) {
   ShoppingCart.prototype.fetchProduct = function(productCode) {
     return this.orderClient.request('GET', '/products/'+ productCode +'/');
   };
-  
+
   ShoppingCart.prototype.fetchProductPrice = function(productCode) {
-    return this.orderClient.request('PUT', '/orders/0/price/', this.getOrder().asJSON());
+    var payLoad = {
+      Item: {
+        Code: productCode,
+        Quantity: 1,
+        PriceOptions: []
+      },
+      BillingDetails: {
+        Country: this.getOrder().getBillingCountry(),
+        State: this.getOrder().getBillingState()
+      },
+      Currency: this.getOrder().getCurrency(),
+      CouponCode: null,
+      PayType: null
+    };
+    return this.orderClient.request('PUT', '/orders/0/price/', payLoad);
   };
   
   ShoppingCart.prototype.updateOrder = function() {
@@ -376,6 +504,11 @@ var Order = function Order(orderData) {
 
   ShoppingCart.prototype.placeOrder = function() {
     return this.orderClient.request('POST', '/orders/', this.getOrder().asJSON());
+  };
+  
+  // @todo Enhance to return Response().
+  ShoppingCart.prototype.handleError = function(error) {
+    console.log(error);
   };
   
 return ShoppingCart;

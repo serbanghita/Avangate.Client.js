@@ -15,8 +15,9 @@ module.exports = function(grunt) {
           'src/3rdparty/hmac-md5.js',
           'src/intro.js',
           'src/Config.js',
-          'src/ApiClient.js',
+          'src/HttpClient.js',
           'src/Product.js',
+          'src/ProductPrice.js',
           'src/Order.js',
           'src/ShoppingCart.js',
           'src/outro.js'

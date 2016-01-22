@@ -54,7 +54,7 @@
   }
   
   function makeHttpClient(uri, vendorCode, vendorSecret) {
-    return new ApiClient(uri, vendorCode, vendorSecret);
+    return new HttpClient(uri, vendorCode, vendorSecret);
   }
 
   ShoppingCart.prototype.makeOrder = function(data) {
